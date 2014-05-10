@@ -51,11 +51,11 @@ public class TableToTableTransitionController {
 
         nameCol1.setCellValueFactory(new PropertyValueFactory<UserFX, String>("name"));
         userIdCol1.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
-        actionsCol1.setCellFactory(new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(this, "down"));
+        actionsCol1.setCellFactory(new ColumnFactory(this, "down"));
 
         nameCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("name"));
         userIdCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
-        actionsCol2.setCellFactory(new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(this, "up"));
+        actionsCol2.setCellFactory(new ColumnFactory(this, "up"));
 
         observableList1 = FXCollections.observableArrayList(
                 new UserFX("Max Meyer", "u01"),
