@@ -1,13 +1,13 @@
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class UserFXVO {
+public class UserFX {
 
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleStringProperty userId = new SimpleStringProperty();
 
 
-    public UserFXVO(String nameUndAbteilungFormatiert, String userId) {
+    public UserFX(String nameUndAbteilungFormatiert, String userId) {
         super();
         this.name.set(nameUndAbteilungFormatiert);
         this.userId.set(userId);
@@ -33,7 +33,7 @@ public class UserFXVO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        UserFXVO other = (UserFXVO) obj;
+        UserFX other = (UserFX) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

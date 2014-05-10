@@ -9,7 +9,7 @@ import javafx.util.Callback;
 public class ZugriffsrechteFuerProjektSetzenFactorys {
 
     public static class TableViewActionColumnFactory implements
-            Callback<TableColumn<UserFXVO, String>, TableCell<UserFXVO, String>> {
+            Callback<TableColumn<UserFX, String>, TableCell<UserFX, String>> {
 
         private TableToTableTransitionController controller;
 
@@ -22,8 +22,8 @@ public class ZugriffsrechteFuerProjektSetzenFactorys {
         }
 
         @Override
-        public TableCell<UserFXVO, String> call(TableColumn<UserFXVO, String> arg0) {
-            TableCell<UserFXVO, String> myTableCell = new TableCell<UserFXVO, String>(
+        public TableCell<UserFX, String> call(TableColumn<UserFX, String> arg0) {
+            TableCell<UserFX, String> myTableCell = new TableCell<UserFX, String>(
                     ) {
 
                 @Override
@@ -37,7 +37,7 @@ public class ZugriffsrechteFuerProjektSetzenFactorys {
                         action.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                UserFXVO vo = getRowItem();
+                                UserFX vo = getRowItem();
                                 if(upOrDown.equals("up"))
                                 controller.moveUp(vo);
                                 else
@@ -55,8 +55,8 @@ public class ZugriffsrechteFuerProjektSetzenFactorys {
                     return false;
                 }
 
-                protected UserFXVO getRowItem() {
-                    UserFXVO item = (UserFXVO) getTableRow().getItem();
+                protected UserFX getRowItem() {
+                    UserFX item = (UserFX) getTableRow().getItem();
                     if(item == null) {
                         item = getTableView().getItems().get(getIndex());
                     }

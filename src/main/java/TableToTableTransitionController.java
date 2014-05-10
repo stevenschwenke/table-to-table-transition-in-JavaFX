@@ -24,134 +24,119 @@ public class TableToTableTransitionController {
     @FXML
     private AnchorPane rootAnchorPane;
 
-    // oberer Bereich zum Editieren der vorhandenen Berechtigungen:
+    @FXML
+    private TableView<UserFX> tableView1;
+    @FXML
+    private TableColumn<UserFX, String> nameCol1;
+    @FXML
+    private TableColumn<UserFX, String> userIdCol1;
+    @FXML
+    private TableColumn<UserFX, String> actionsCol1;
+
+    ObservableList<UserFX> observableList1;
 
     @FXML
-    private TableView<UserFXVO> tableView1;
+    private TableView<UserFX> tableView2;
+    @FXML
+    private TableColumn<UserFX, String> nameCol2;
+    @FXML
+    private TableColumn<UserFX, String> userIdCol2;
+    @FXML
+    private TableColumn<UserFX, String> actionsCol2;
 
-    @FXML
-    private TableColumn<UserFXVO, String> nameCol1;
-    @FXML
-    private TableColumn<UserFXVO, String> userIdCol1;
-    @FXML
-    private TableColumn<UserFXVO, String> actionsCol1;
-
-    ObservableList<UserFXVO> observableList1;
-
-    // unterer Bereich zum Hinzufuegen neuer berechtigter Anwender:
-
-    @FXML
-    private TableView<UserFXVO> tableView2;
-    @FXML
-    private TableColumn<UserFXVO, String> nameCol2;
-    @FXML
-    private TableColumn<UserFXVO, String> userIdCol2;
-    @FXML
-    private TableColumn<UserFXVO, String> actionsCol2;
-
-    private ObservableList<UserFXVO> observableList2;
+    private ObservableList<UserFX> observableList2;
 
     @FXML
     void initialize() {
 
-        nameCol1.setCellValueFactory(new PropertyValueFactory<UserFXVO, String>("name"));
-        userIdCol1.setCellValueFactory(new PropertyValueFactory<UserFXVO, String>("userId"));
+        nameCol1.setCellValueFactory(new PropertyValueFactory<UserFX, String>("name"));
+        userIdCol1.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
+        actionsCol1.setCellFactory(new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(this, "down"));
 
-        ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory cellFactory = new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(
-                this, "down");
-        actionsCol1.setCellFactory(cellFactory);
-
-        nameCol2.setCellValueFactory(new PropertyValueFactory<UserFXVO, String>("name"));
-        userIdCol2.setCellValueFactory(new PropertyValueFactory<UserFXVO, String>("userId"));
-
-        cellFactory = new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(
-                this, "up");
-        actionsCol2.setCellFactory(cellFactory);
+        nameCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("name"));
+        userIdCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
+        actionsCol2.setCellFactory(new ZugriffsrechteFuerProjektSetzenFactorys.TableViewActionColumnFactory(this, "up"));
 
         observableList1 = FXCollections.observableArrayList(
-                new UserFXVO("Name", "UserID"),
-                new UserFXVO("Name", "UserID")
+                new UserFX("Max Meyer", "u01"),
+                new UserFX("Gordon Freeman", "u02")
         );
         tableView1.setItems(observableList1);
 
         observableList2 = FXCollections.observableArrayList(
-                new UserFXVO("Name", "UserID"),
-                new UserFXVO("Name", "UserID")
+                new UserFX("Jack the Hack", "u03"),
+                new UserFX("Mister Minister", "u04")
         );
         tableView2.setItems(observableList2);
-
     }
 
 
-    void moveUp(final UserFXVO vo) {
+    void moveUp(final UserFX vo) {
 
-        // Position und Snapshot des Eintrages in der unteren Tabelle merken
-        TableRow<UserFXVO> rowUntereTabelle = ermittleRow(tableView2, vo);
-        double yUntereTabelle = rowUntereTabelle.localToScene(0, 0).getY();
-        WritableImage snapshot = rowUntereTabelle.snapshot(new SnapshotParameters(), null);
+        // Position and Snapshot of the row in table 2
+        TableRow<UserFX> rowTable2 = findRow(tableView2, vo);
+        double yTable2 = rowTable2.localToScene(0, 0).getY();
+        WritableImage snapshot = rowTable2.snapshot(new SnapshotParameters(), null);
 
-        // Eintrag in unterer Tabelle entfernen
+        // remove entry from table 2
         observableList2.remove(vo);
 
-        // Neues VO in obere Tabelle einfuegen (betrachtete Eintrag ist kurzzeitig in beiden Tabellen vorhanden!)
-        final UserFXVO newVO = new UserFXVO(vo.getName(), vo.getUserId());
-        observableList1.add(newVO);
+        // add new object to table 1 (now this entry is in both tables!)
+        final UserFX newUser = new UserFX(vo.getName(), vo.getUserId());
+        observableList1.add(newUser);
 
-        // Neuen Eintrag in oberer Tabelle selektieren und hinscrollen
-        tableView1.getSelectionModel().select(newVO);
+        // select new entry in table 1 and scroll to it
+        tableView1.getSelectionModel().select(newUser);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                int index = observableList1.indexOf(newVO);
+                int index = observableList1.indexOf(newUser);
                 tableView1.scrollTo(index);
             }
         });
 
         // Animation
-        TableRow<UserFXVO> rowObereTabelle = ermittleRow(tableView1, newVO);
-        double yObereTabelle = rowObereTabelle.localToScene(0, 0).getY();
-        animationUebergangVonUntererInObereTabelle(yObereTabelle, yUntereTabelle, snapshot);
+        TableRow<UserFX> rowTable1 = findRow(tableView1, newUser);
+        double yTable1 = rowTable1.localToScene(0, 0).getY();
+        doTheFancyAnimation(yTable1, yTable2, snapshot);
     }
 
-    void moveDown(final UserFXVO vo) {
+    void moveDown(final UserFX vo) {
 
-        // Position und Snapshot des Eintrages in der oberen Tabelle merken
-        TableRow<UserFXVO> rowObereTabelle = ermittleRow(tableView1, vo);
-        double yObereTabelle = rowObereTabelle.localToScene(0, 0).getY();
-        WritableImage snapshot = rowObereTabelle.snapshot(new SnapshotParameters(), null);
+        // Position and Snapshot of the row in table 1
+        TableRow<UserFX> rowTable1 = findRow(tableView1, vo);
+        double yTable1 = rowTable1.localToScene(0, 0).getY();
+        WritableImage snapshot = rowTable1.snapshot(new SnapshotParameters(), null);
 
-        // Eintrag in oberer Tabelle entfernen
+        // remove entry from table 1
         observableList1.remove(vo);
 
-        // Neues VO in unterer Tabelle einfuegen (betrachtete Eintrag ist kurzzeitig in beiden Tabellen vorhanden!)
-        final UserFXVO newVO = new UserFXVO(vo.getName(), vo.getUserId());
-        observableList2.add(newVO);
+        // add new object to table 2 (now this entry is in both tables!)
+        final UserFX newUser = new UserFX(vo.getName(), vo.getUserId());
+        observableList2.add(newUser);
 
-        // Neuen Eintrag in unterer Tabelle selektieren und hinscrollen
-        tableView2.getSelectionModel().select(newVO);
+        // select new entry in table 2 and scroll to it
+        tableView2.getSelectionModel().select(newUser);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                int index = observableList2.indexOf(newVO);
+                int index = observableList2.indexOf(newUser);
                 tableView2.scrollTo(index);
             }
         });
 
         // Animation
-        TableRow<UserFXVO> rowUntereTabelle = ermittleRow(tableView2, newVO);
-        double yUntereTabelle = rowUntereTabelle.localToScene(0, 0).getY();
-        animationUebergangVonUntererInObereTabelle(yUntereTabelle, yObereTabelle,  snapshot);
+        TableRow<UserFX> rowTable2 = findRow(tableView2, newUser);
+        double yTable2 = rowTable2.localToScene(0, 0).getY();
+        doTheFancyAnimation(yTable2, yTable1, snapshot);
     }
 
     /**
-     * Animiert den Uebergang eines Eintrages von der Tabelle der fuer die Berechtigung in Frage kommenden User in die
-     * Tabelle der berechtigten User indem ein Snapshot vertikal von einer y-Position zu einer anderen geschoben wird.
-     *
-     * @param y1       Y-Koordinate des Ausgangspunktes
-     * @param y2       Y-Koordinate des Zielpunktes
-     * @param snapshot welcher von y1 nach y2 verschoben werden soll
+     * @param y1       Y-Coordinate to start from
+     * @param y2       Y-Coordinate to go to
+     * @param snapshot that gets translated
      */
-    private void animationUebergangVonUntererInObereTabelle(final double y1, final double y2, final WritableImage snapshot) {
+    private void doTheFancyAnimation(final double y1, final double y2, final WritableImage snapshot) {
 
         Platform.runLater(new Runnable() {
             @Override
@@ -186,21 +171,13 @@ public class TableToTableTransitionController {
         });
     }
 
-    /**
-     * Ermittelt die {@link TableRow} eines bestimmten Tabelleneintrages.
-     *
-     * @param <ROWVO> Typ des Objektes einer Tabellenzeile
-     * @param tabelle aus welcher die Row ermittelt werden soll
-     * @param vo      Tabelleneintrag
-     * @return TableRow oder null, falls diese nicht gefunden werden konnte
-     */
-    private <ROWVO> TableRow<ROWVO> ermittleRow(TableView<ROWVO> tabelle, final ROWVO vo) {
-        ObservableList<ROWVO> items = tabelle.getItems();
-        for (Node n : tabelle.lookupAll("TableRow")) {
+    private <ROW> TableRow<ROW> findRow(TableView<ROW> table, final ROW vo) {
+        ObservableList<ROW> items = table.getItems();
+        for (Node n : table.lookupAll("TableRow")) {
             if (n instanceof TableRow) {
 
                 @SuppressWarnings("unchecked")
-                TableRow<ROWVO> row = (TableRow<ROWVO>) n;
+                TableRow<ROW> row = (TableRow<ROW>) n;
 
                 if (items.size() > row.getIndex() && items.get(row.getIndex()).equals(vo)) {
                     return row;

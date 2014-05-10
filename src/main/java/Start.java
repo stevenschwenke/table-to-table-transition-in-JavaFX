@@ -16,7 +16,7 @@ public class Start extends Application {
 
         Scene scene = new Scene(root, 600, 500);
 
-        stage.setTitle("Extendable navigation pane demo");
+        stage.setTitle("Table to table transition");
         stage.setScene(scene);
         stage.show();
     }
