@@ -13,6 +13,7 @@ public class Start extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("tableToTableTransition.fxml"));
 
+
         Scene scene = new Scene(root, 600, 500);
 
         stage.setTitle("Extendable navigation pane demo");
