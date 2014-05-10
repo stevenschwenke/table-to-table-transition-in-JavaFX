@@ -36,6 +36,7 @@ public class ColumnFactory implements Callback<TableColumn<UserFX, String>, Tabl
                         public void handle(ActionEvent e) {
                             UserFX vo = getRowItem();
                             if (upOrDown.equals("up"))
+                                // TODO Add a nice icon
                                 controller.moveUp(vo);
                             else
                                 controller.moveDown(vo);
