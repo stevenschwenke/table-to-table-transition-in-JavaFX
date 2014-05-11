@@ -3,6 +3,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
 
@@ -30,19 +32,29 @@ public class ColumnFactory implements Callback<TableColumn<UserFX, String>, Tabl
                 if (!isDataTableRow()) {
                     FlowPane pane = new FlowPane();
                     pane.setHgap(10);
-                    Button action = new Button("move!");
-                    action.setOnAction(new EventHandler<ActionEvent>() {
+                    Button actionButton = new Button("move!");
+
+                    // Icon
+                    if(upOrDown.equals("up")) {
+                        Image imageOk = new Image(getClass().getResourceAsStream("32px-Gnome-go-up.svg.png"));
+                        actionButton.setGraphic(new ImageView(imageOk));
+                    } else {
+                        Image imageOk = new Image(getClass().getResourceAsStream("32px-Gnome-go-down.svg.png"));
+                        actionButton.setGraphic(new ImageView(imageOk));
+                    }
+
+                    // Action
+                    actionButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             UserFX vo = getRowItem();
                             if (upOrDown.equals("up"))
-                                // TODO Add a nice icon
                                 controller.moveUp(vo);
                             else
                                 controller.moveDown(vo);
                         }
                     });
-                    pane.getChildren().add(action);
+                    pane.getChildren().add(actionButton);
 
                     setGraphic(pane);
                 }
