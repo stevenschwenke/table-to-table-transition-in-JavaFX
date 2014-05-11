@@ -53,9 +53,18 @@ public class TableToTableTransitionController {
         userIdCol1.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
         actionsCol1.setCellFactory(new ColumnFactory(this, "down"));
 
+
+        nameCol1.prefWidthProperty().bind(tableView1.widthProperty().divide(3).subtract(2));
+        userIdCol1.prefWidthProperty().bind(tableView1.widthProperty().divide(3).subtract(2));
+        actionsCol1.prefWidthProperty().bind(tableView1.widthProperty().divide(3).subtract(2));
+
         nameCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("name"));
         userIdCol2.setCellValueFactory(new PropertyValueFactory<UserFX, String>("userId"));
         actionsCol2.setCellFactory(new ColumnFactory(this, "up"));
+
+        nameCol2.prefWidthProperty().bind(tableView2.widthProperty().divide(3).subtract(2));
+        userIdCol2.prefWidthProperty().bind(tableView2.widthProperty().divide(3).subtract(2));
+        actionsCol2.prefWidthProperty().bind(tableView2.widthProperty().divide(3).subtract(2));
 
         observableList1 = FXCollections.observableArrayList(
                 new UserFX("Max Meyer", "u01"),
