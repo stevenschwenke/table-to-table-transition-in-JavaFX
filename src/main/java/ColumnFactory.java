@@ -32,13 +32,15 @@ public class ColumnFactory implements Callback<TableColumn<UserFX, String>, Tabl
                 if (!isDataTableRow()) {
                     FlowPane pane = new FlowPane();
                     pane.setHgap(10);
-                    Button actionButton = new Button("move!");
+                    Button actionButton = null;
 
                     // Icon
                     if(upOrDown.equals("up")) {
+                        actionButton= new Button("Add!");
                         Image imageOk = new Image(getClass().getResourceAsStream("32px-Gnome-go-up.svg.png"));
                         actionButton.setGraphic(new ImageView(imageOk));
                     } else {
+                        actionButton= new Button("Remove!");
                         Image imageOk = new Image(getClass().getResourceAsStream("32px-Gnome-go-down.svg.png"));
                         actionButton.setGraphic(new ImageView(imageOk));
                     }

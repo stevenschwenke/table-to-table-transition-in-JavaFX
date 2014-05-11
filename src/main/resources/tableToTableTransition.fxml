@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="TableToTableTransitionController">
@@ -14,7 +11,7 @@
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
           <children>
-            <AnchorPane fx:id="paneObereTabelle" prefHeight="318.0" prefWidth="598.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+            <AnchorPane prefHeight="318.0" prefWidth="598.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
               <children>
                 <TableView id="tableView" fx:id="tableView1" editable="true" prefHeight="255.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <columns>
@@ -41,7 +38,7 @@
               <columns>
                 <TableColumn prefWidth="75.0" text="Name" fx:id="nameCol2" />
                 <TableColumn prefWidth="75.0" text="User-ID" fx:id="userIdCol2" />
-                <TableColumn prefWidth="75.0" text="Column X" fx:id="actionsCol2" />
+                <TableColumn prefWidth="75.0" text="Actions" fx:id="actionsCol2" />
               </columns>
             </TableView>
             <Label font="$x1" text="Potential" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
