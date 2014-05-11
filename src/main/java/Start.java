@@ -14,7 +14,7 @@ public class Start extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("tableToTableTransition.fxml"));
 
 
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 600, 600);
 
         stage.setTitle("Table to table transition");
         stage.setScene(scene);
