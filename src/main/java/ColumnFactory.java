@@ -29,7 +29,7 @@ public class ColumnFactory implements Callback<TableColumn<UserFX, String>, Tabl
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (!isDataTableRow()) {
+                if (!isNoDataTableRow()) {
                     FlowPane pane = new FlowPane();
                     pane.setHgap(10);
                     Button actionButton = null;
@@ -59,17 +59,21 @@ public class ColumnFactory implements Callback<TableColumn<UserFX, String>, Tabl
                     pane.getChildren().add(actionButton);
 
                     setGraphic(pane);
+                } else {
+                    setGraphic(null);
                 }
             }
 
-            private boolean isDataTableRow() {
-                // TODO figure this out so the buttons are not shown at every row
-//                    return getRowItem() != null;
-                return false;
+            private boolean isNoDataTableRow() {
+                return getIndex() == -1 || getIndex() >= getTableView().getItems().size();
             }
 
             protected UserFX getRowItem() {
                 UserFX item = (UserFX) getTableRow().getItem();
+
+                if(isNoDataTableRow())
+                    return null;
+
                 if (item == null) {
                     item = getTableView().getItems().get(getIndex());
                 }
