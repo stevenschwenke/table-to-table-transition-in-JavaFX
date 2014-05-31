@@ -6,3 +6,5 @@ This small project implements a transition of table items between two tables in 
 ![alt tag](table-to-table-transition-in-JavaFX.gif)
 
 In this version, the tables have to have the same coordinates on the y-axis. However it should be fairly simple to modify this code.
+
+This code was written together with Scavenger156. 
